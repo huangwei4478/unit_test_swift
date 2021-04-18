@@ -40,4 +40,28 @@ class LogAnalyzerTests: XCTestCase {
         let result = analyzer.isValidLogFileName(fileName: "filewithgoodextension.SLF")
         XCTAssertTrue(result)
     }
+    
+    func testIsValidFileName_NameSupportedExtension_ReturnsTrue() {
+        let myFakeManager = FakeExtensionManager(willBeValid: true)
+        
+        let log = LogAnalyzer(manager: myFakeManager)
+        
+        let result = log.isValidLogFileName(fileName: "short.ext")
+        
+        XCTAssertTrue(result)
+    }
+    
+    // This is a stub
+    final class FakeExtensionManager: IExtensionManager {
+        func isValid(fileName: String) -> Bool {
+            return willBeValid
+        }
+        
+        let willBeValid: Bool
+        
+        init(willBeValid: Bool) {
+            self.willBeValid = willBeValid
+        }
+    }
+    
 }
